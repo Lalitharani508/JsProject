@@ -432,6 +432,8 @@ document.getElementById("submitReview").addEventListener("click", function () {
   // const getdatafromstorage=JSON.parse(localStorage.getItem("ReviewsfromUsers"))
   const modal = document.getElementById("reviewModal");
   const category = modal.dataset.category;  // Get the category
+  const userName=document.getElementById("name").value;
+
 
   if (selectedStars === 0) {
     Swal.fire("Oops!", "Please select a star rating before submitting!", "warning");
@@ -446,6 +448,7 @@ document.getElementById("submitReview").addEventListener("click", function () {
 
 
   let newReview = {
+    username:userName,
     text: reviewText,
     stars: selectedStars,
     category: category,
@@ -487,13 +490,16 @@ allReviewsBtn.addEventListener("click", () => {
   } else {
     storedReviews.forEach(review => {
       const row = tableBody.insertRow();
+      const peopleCell = row.insertCell();
       const storeCell = row.insertCell(); // Cell for store name
       const textCell = row.insertCell();
       const ratingCell = row.insertCell();
 
+      peopleCell.textContent = review.username||"anonymus" 
       storeCell.textContent = review.storeName; // Add store name to the table
       textCell.textContent = review.text;
       ratingCell.textContent = review.stars;
+
     });
   }
 
