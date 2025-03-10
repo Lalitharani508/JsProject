@@ -111,35 +111,35 @@ const stores = [
     "id": "clothes_006",
     "category": "shopping",
     "name": "Streetwear Central",
-    "image_url": "https://i.pinimg.com/736x/gh/12/34.jpg",
+    "image_url": "https://i.pinimg.com/736x/21/28/1b/21281b4fbe857d8d54c8a2fa08d4f0e0.jpg",
     "location": "987 Willow St, Miami, FL"
   },
   {
     "id": "clothes_007",
     "category": "shopping",
     "name": "Luxury Threads",
-    "image_url": "https://i.pinimg.com/736x/ij/56/78.jpg",
+    "image_url": "https://i.pinimg.com/736x/f7/46/c0/f746c01c0deaba960d5d9cf6c4526371.jpg",
     "location": "741 Palm St, Austin, TX"
   },
   {
     "id": "clothes_008",
     "category": "shopping",
     "name": "Vintage Vogue",
-    "image_url": "https://i.pinimg.com/736x/kl/67/89.jpg",
+    "image_url": "https://i.pinimg.com/736x/80/ad/94/80ad948132da2431d0319793173297bb.jpg",
     "location": "369 Cedar St, Denver, CO"
   },
   {
     "id": "clothes_009",
     "category": "shopping",
     "name": "Casual Chic",
-    "image_url": "https://i.pinimg.com/736x/mn/78/90.jpg",
+    "image_url": "https://i.pinimg.com/736x/b6/81/3e/b6813e90a7fe94ef854b84e50df496d7.jpg",
     "location": "852 Spruce St, Seattle, WA"
   },
   {
     "id": "clothes_010",
     "category": "shopping",
     "name": "The Fashion Hub",
-    "image_url": "https://i.pinimg.com/736x/op/89/12.jpg",
+    "image_url": "https://i.pinimg.com/736x/4f/d2/a0/4fd2a05c5f12550768412296c0042862.jpg",
     "location": "159 Birch St, Boston, MA"
   },
 
