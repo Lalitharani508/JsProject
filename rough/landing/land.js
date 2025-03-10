@@ -56,7 +56,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
             showConfirmButton: false
         }).then(() => {
             localStorage.setItem('loggedInUser', JSON.stringify(matchedUser)); // Store logged-in user
-            window.location.href = "../mainhome/index.html";
+            window.location.href = "./mainhome/index.html";
             
         });
     } else {
