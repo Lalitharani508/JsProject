@@ -1,0 +1,103 @@
+/* <style> */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.hero-section {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('https://media-hosting.imagekit.io//c82ea9ae22b24eef/wmremove-transformed (1).jpeg?Expires=1835886412&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=xKiLDPpPcBqZWm34Cpa-LyNEXIJBjlXnXKGj021RW2--DyREO2G9x-cxmMUwj30rVQiuirdGbUAFIq-BMgn2~HErXCyPI7CnY0ft-oWrFgJWnQ6Aut4fhkE3A5o640FOXsKCCc9oslASpYOSJZeybHTQ-2RB8e-lIWsqEeZP7S5y5hNdy9vZGH~DpHR~m1Puz4IS32ehIxmBauqsD~DGhZ3kbOyErbpeV-s~7dqAKxo~G~Klz5WlQyuPKvBn3LeBc4iz84r9v8chsR0nSxeLq0ye~rKtrFc0fqv-K5Na8skShnEzBRNxai7lgf1wkqHN0N3FS9g1M34HLjHB~b~w2A__') no-repeat center center/cover;
+    text-align: center;
+    color: white;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #00FFA9;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section > div > p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.hero-section > div > button {
+    padding: 12px 24px;
+    background-color: #0D4DFF;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 10px rgba(13, 77, 255, 0.3);
+}
+
+.hero-section > div > button:hover {
+    background-color: #00FFA9;
+    color: #0D4DFF;
+    box-shadow: 0px 6px 15px rgba(0, 255, 169, 0.4);
+}
+
+.navbar {
+    animation: fadeInDown 1s;
+    background-color: #0D4DFF;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 2rem;
+    color: #00FFA9;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+    color: white;
+}
+
+.modal-content {
+    animation: zoomIn 0.5s;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* </style> */
