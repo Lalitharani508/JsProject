@@ -86,6 +86,10 @@ function swalWelcome() {
             animate__faster
           `
         }
-      });
+      }).then(()=>{
+        let mymodal=new bootstrap.Modal(document.getElementById("signupModal"))
+        mymodal.show()
+      })
+      
 
 }

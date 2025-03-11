@@ -293,6 +293,8 @@ const stores = [
 
 function displayCards(cat) {
   let catWiseData = document.getElementById("catWiseData")
+ 
+
   catWiseData.innerHTML = "";
   catWiseData.style.display = "flex"
   catWiseData.style.flexWrap = "wrap"
@@ -306,6 +308,9 @@ function displayCards(cat) {
   let filteredData = stores.filter(x => x.category === cat);
   filteredData.forEach((item) => {
     let shopdiv = document.createElement("div")
+    let divs=document.querySelector("#allReviewsContainer")
+    divs.style.display="none"
+  
     // Apply inline styles for card layout
     shopdiv.style.border = "1px solid #ddd";
     shopdiv.style.borderRadius = "10px";
@@ -319,6 +324,7 @@ function displayCards(cat) {
     shopdiv.style.transition = "transform 0.3s ease-in-out";
     shopdiv.style.backgroundColor = "#fff";
     shopdiv.style.cursor = "pointer";
+    
 
 
 
@@ -465,10 +471,15 @@ document.getElementById("submitReview").addEventListener("click", function () {
     icon: "success",
     confirmButtonText: "OK"
   }).then(() => {
-    let reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
-    reviewModal.show();
-    // reviewModal.hide();
+    let reviewModalElement = document.getElementById("reviewModal");
+    let reviewModal = bootstrap.Modal.getInstance(reviewModalElement); 
+  
+    if (reviewModal) {
+      reviewModal.hide();
+    }
   });
+  
+
 })
 
 //all reviews button
@@ -480,6 +491,8 @@ const tableBody = reviewTable.querySelector("tbody");
 
 
 allReviewsBtn.addEventListener("click", () => {
+  let divs=document.querySelector(".container")
+  divs.style.display="none"
 
   const storedReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
 
@@ -527,6 +540,12 @@ document.getElementById("searchInput").addEventListener("input", function () {
 
 // Function to display search results
 function displaySearchResults(filteredStores) {
+  let divs=document.querySelector(".container")
+  let tabel=document.querySelector("#allReviewsContainer")
+  tabel.style.display="none"
+  divs.style.display="none"
+
+
   const catWiseData = document.getElementById("catWiseData");
   catWiseData.innerHTML = "";
   catWiseData.style.display = "flex";
@@ -536,7 +555,7 @@ function displaySearchResults(filteredStores) {
   catWiseData.style.alignItems = "center";
   catWiseData.style.alignContent = "center";
   catWiseData.style.justifyContent = "center";
-  catWiseData.style.backgroundColor = "#7AB2B2"
+  catWiseData.style.backgroundColor = "white"
 
   if (filteredStores.length === 0) {
     catWiseData.innerHTML = "<p>No results found.</p>";
@@ -555,9 +574,9 @@ function displaySearchResults(filteredStores) {
     shopdiv.style.justifyContent = "center";
     shopdiv.style.display = "inline-block";
     shopdiv.style.transition = "transform 0.3s ease-in-out";
-    shopdiv.style.backgroundColor = "#fff";
+    shopdiv.style.backgroundColor = "white";
     shopdiv.style.cursor = "pointer";
-    shopdiv.style.backgroundColor = "#EEF7FF"
+    // shopdiv.style.backgroundColor = "#EEF7"
 
     shopdiv.addEventListener("mouseover", () => {
       shopdiv.style.transform = "scale(1.05)";
