@@ -1,3 +1,21 @@
+// Function to get logged-in users from localStorage
+
+// Function to update the welcome message
+function updateWelcomeMessage() {
+    let loggedInUser = getLoggedInUser();
+    let welcomeMessage = document.getElementById("welcomeMessage");
+
+    if (loggedInUser) {
+        welcomeMessage.textContent = `Welcome, ${loggedInUser.name}!`;
+    } else {
+        welcomeMessage.textContent = "";
+    }
+}
+
+// Run the function when the page loads
+document.addEventListener("DOMContentLoaded", updateWelcomeMessage);
+
+
 
 // Function to get users from localStorage
 //Store Multiple Users in Local Storage
@@ -38,37 +56,45 @@ document.getElementById('signupForm').addEventListener('submit', function (event
     bootstrap.Modal.getInstance(document.getElementById('signupModal')).hide();
 });
 
-// Login Form Submission
-document.getElementById('loginForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    let email = document.getElementById('loginEmail').value;
-    let password = document.getElementById('loginPassword').value;
 
-    let users = getUsers();
+
+
+// Login Form Submission
+document.getElementById("loginForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    let email = document.getElementById("loginEmail").value;
+    let password = document.getElementById("loginPassword").value;
+
+    let users = JSON.parse(localStorage.getItem("users")) || [];
     let matchedUser = users.find(user => user.email === email && user.password === password);
 
     if (matchedUser) {
         Swal.fire({
-            title: 'Login Successful!',
+            title: "Login Successful!",
             text: `Redirecting to your dashboard...`,
-            icon: 'success',
+            icon: "success",
             timer: 2000,
             showConfirmButton: false
         }).then(() => {
-            localStorage.setItem('loggedInUser', JSON.stringify(matchedUser)); // Store logged-in user
+            let loggedInUsers = JSON.parse(localStorage.getItem("loggedInUsers")) || [];
+            loggedInUsers.push(matchedUser);  // Store multiple users
+            localStorage.setItem("loggedInUsers", JSON.stringify(loggedInUsers));
+
             window.location.href = "./mainhome/index.html";
-            
         });
     } else {
         Swal.fire({
-            title: 'Login Failed',
-            text: 'Invalid email or password. Please try again.',
-            icon: 'error'
+            title: "Login Failed",
+            text: "Invalid email or password. Please try again.",
+            icon: "error"
         });
     }
 
-    document.getElementById('loginForm').reset();
+    document.getElementById("loginForm").reset();
 });
+
+
+
 function swalWelcome() {
     Swal.fire({
         title: "Before Getting Started Please Create a Account!!!",

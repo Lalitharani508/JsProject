@@ -288,6 +288,27 @@ const stores = [
 
 ];
 
+// Function to get logged-in users from localStorage
+function getLoggedInUser() {
+  let users = JSON.parse(localStorage.getItem("loggedInUsers")) || [];
+  return users.length > 0 ? users[users.length - 1] : null;  // Show the most recent user
+}
+
+// Function to update the welcome message
+function updateWelcomeMessage() {
+  let loggedInUser = getLoggedInUser();
+  let welcomeMessage = document.getElementById("welcomeMessage");
+
+  if (loggedInUser) {
+      welcomeMessage.textContent = `Welcome, ${loggedInUser.name}!`;
+  } else {
+      welcomeMessage.textContent = "";
+  }
+}
+
+// Run the function when the page loads
+document.addEventListener("DOMContentLoaded", updateWelcomeMessage);
+
 
 
 
