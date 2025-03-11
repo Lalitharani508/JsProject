@@ -423,7 +423,7 @@ function openReviewModal(storeName) {
 
 
 
-
+//stars
 document.addEventListener("DOMContentLoaded", function () {
   let starsContainer = document.querySelector(".rating-stars");
 
@@ -560,80 +560,128 @@ document.getElementById("searchInput").addEventListener("input", function () {
 });
 
 // Function to display search results
-function displaySearchResults(filteredStores) {
-  let divs=document.querySelector(".container")
-  let tabel=document.querySelector("#allReviewsContainer")
-  tabel.style.display="none"
-  divs.style.display="none"
+// function displaySearchResults(filteredStores) {
+//   let divs=document.querySelector(".container")
+//   let tabel=document.querySelector("#allReviewsContainer")
+//   tabel.style.display="none"
+//   divs.style.display="none"
 
+
+//   const catWiseData = document.getElementById("catWiseData");
+//   catWiseData.innerHTML = "";
+//   catWiseData.style.display = "flex";
+//   catWiseData.style.flexWrap = "wrap";
+//   catWiseData.style.gap = "15px";
+//   catWiseData.style.padding = "20px";
+//   catWiseData.style.alignItems = "center";
+//   catWiseData.style.alignContent = "center";
+//   catWiseData.style.justifyContent = "center";
+//   catWiseData.style.backgroundColor = "white"
+
+//   if (filteredStores.length === 0) {
+//     catWiseData.innerHTML = "<p>No results found.</p>";
+//     return;
+//   }
+
+//   filteredStores.forEach((item) => {
+//     let shopdiv = document.createElement("div");
+//     shopdiv.style.border = "1px solid #ddd";
+//     shopdiv.style.borderRadius = "10px";
+//     shopdiv.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
+//     shopdiv.style.margin = "10px";
+//     shopdiv.style.padding = "15px";
+//     shopdiv.style.width = "450px";
+//     shopdiv.style.textAlign = "center";
+//     shopdiv.style.justifyContent = "center";
+//     shopdiv.style.display = "inline-block";
+//     shopdiv.style.transition = "transform 0.3s ease-in-out";
+//     shopdiv.style.backgroundColor = "white";
+//     shopdiv.style.cursor = "pointer";
+//     // shopdiv.style.backgroundColor = "#EEF7"
+
+//     shopdiv.addEventListener("mouseover", () => {
+//       shopdiv.style.transform = "scale(1.05)";
+//     });
+//     shopdiv.addEventListener("mouseout", () => {
+//       shopdiv.style.transform = "scale(1)";
+//     });
+
+//     let img = document.createElement("img");
+//     img.src = item.image_url;
+//     img.alt = item.name;
+//     img.style.width = "100%";
+//     img.style.height = "180px";
+//     img.style.borderRadius = "8px";
+//     img.style.objectFit = "cover";
+
+//     let title = document.createElement("h2");
+//     title.innerText = item.name;
+//     title.style.fontSize = "18px";
+//     title.style.margin = "10px 0";
+//     title.style.color = "#333";
+
+//     let location = document.createElement("p");
+//     location.innerHTML = `<strong>Location:</strong> ${item.location}`;
+//     location.style.fontSize = "14px";
+//     location.style.color = "#666";
+
+//     shopdiv.appendChild(img);
+//     shopdiv.appendChild(title);
+//     shopdiv.appendChild(location);
+//     catWiseData.appendChild(shopdiv);
+
+//     shopdiv.addEventListener("click", () => {
+//       openReviewModal(item.name, item.category);
+//     });
+//   });
+// }
+
+
+function displaySearchResults(filteredStores) {
+  let divs = document.querySelector(".container");
+  let table = document.querySelector("#allReviewsContainer");
+  table.style.display = "none";
+  divs.style.display = "none";
 
   const catWiseData = document.getElementById("catWiseData");
   catWiseData.innerHTML = "";
-  catWiseData.style.display = "flex";
-  catWiseData.style.flexWrap = "wrap";
-  catWiseData.style.gap = "15px";
+  catWiseData.style.display = "grid";
+  catWiseData.style.gridTemplateColumns = "repeat(auto-fit, minmax(280px, 1fr))";
+  catWiseData.style.gap = "20px";
   catWiseData.style.padding = "20px";
-  catWiseData.style.alignItems = "center";
-  catWiseData.style.alignContent = "center";
-  catWiseData.style.justifyContent = "center";
-  catWiseData.style.backgroundColor = "white"
 
   if (filteredStores.length === 0) {
-    catWiseData.innerHTML = "<p>No results found.</p>";
-    return;
+      catWiseData.innerHTML = "<p style='text-align:center; font-size:18px; color:#555;'>No results found.</p>";
+      return;
   }
 
   filteredStores.forEach((item) => {
-    let shopdiv = document.createElement("div");
-    shopdiv.style.border = "1px solid #ddd";
-    shopdiv.style.borderRadius = "10px";
-    shopdiv.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
-    shopdiv.style.margin = "10px";
-    shopdiv.style.padding = "15px";
-    shopdiv.style.width = "450px";
-    shopdiv.style.textAlign = "center";
-    shopdiv.style.justifyContent = "center";
-    shopdiv.style.display = "inline-block";
-    shopdiv.style.transition = "transform 0.3s ease-in-out";
-    shopdiv.style.backgroundColor = "white";
-    shopdiv.style.cursor = "pointer";
-    // shopdiv.style.backgroundColor = "#EEF7"
+      let shopdiv = document.createElement("div");
+      shopdiv.classList.add("shop-card");
 
-    shopdiv.addEventListener("mouseover", () => {
-      shopdiv.style.transform = "scale(1.05)";
-    });
-    shopdiv.addEventListener("mouseout", () => {
-      shopdiv.style.transform = "scale(1)";
-    });
+      let img = document.createElement("img");
+      img.src = item.image_url;
+      img.alt = item.name;
+      img.classList.add("shop-img");
 
-    let img = document.createElement("img");
-    img.src = item.image_url;
-    img.alt = item.name;
-    img.style.width = "100%";
-    img.style.height = "180px";
-    img.style.borderRadius = "8px";
-    img.style.objectFit = "cover";
+      let title = document.createElement("h3");
+      title.innerText = item.name;
+      title.classList.add("shop-title");
 
-    let title = document.createElement("h2");
-    title.innerText = item.name;
-    title.style.fontSize = "18px";
-    title.style.margin = "10px 0";
-    title.style.color = "#333";
+      let location = document.createElement("p");
+      location.innerHTML = `<strong>Location:</strong> ${item.location}`;
+      location.classList.add("shop-location");
 
-    let location = document.createElement("p");
-    location.innerHTML = `<strong>Location:</strong> ${item.location}`;
-    location.style.fontSize = "14px";
-    location.style.color = "#666";
+      shopdiv.appendChild(img);
+      shopdiv.appendChild(title);
+      shopdiv.appendChild(location);
+      catWiseData.appendChild(shopdiv);
 
-    shopdiv.appendChild(img);
-    shopdiv.appendChild(title);
-    shopdiv.appendChild(location);
-    catWiseData.appendChild(shopdiv);
-
-    shopdiv.addEventListener("click", () => {
-      openReviewModal(item.name, item.category);
-    });
+      shopdiv.addEventListener("click", () => {
+          openReviewModal(item.name, item.category);
+      });
   });
 }
+
 
 

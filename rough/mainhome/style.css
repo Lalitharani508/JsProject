@@ -25,7 +25,7 @@ h1 {
     font-weight: bold;
     margin-bottom: 10px;
     text-align: right;
-    padding: 10px;
+    padding: 7px;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
 }
 /* Header */
@@ -127,9 +127,11 @@ h1 {
     transition: color 0.3s;
 }
 
-.rating-stars i:hover,
-.rating-stars i.active {
+.rating-stars i:hover{
     color: #00FFA9;
+}
+.rating-stars i.selected{
+    color: #0D4DFF;
 }
 
 /* Reviews Section */
@@ -162,6 +164,45 @@ h1 {
     background-color: #00FFA9;
     color: #0D4DFF;
     font-size: 1.1rem;
+}
+
+
+/* search bar */
+/* Shop Card Styling */
+.shop-card {
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.shop-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Shop Image */
+.shop-img {
+    width: 100%;
+    height: 160px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* Title */
+.shop-title {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #333;
+}
+
+/* Location */
+.shop-location {
+    font-size: 14px;
+    color: #666;
 }
 
 /* Animations */
