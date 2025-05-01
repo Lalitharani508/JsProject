@@ -75,29 +75,38 @@
 
 
 <!-- Review Modal -->
+<!-- Review Modal -->
 <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animate__animated animate__fadeIn">
             <div class="modal-header">
                 <h5 class="modal-title" id="reviewModalLabel">Submit a Review</h5>
-
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <div class="modal-body">
                 <p id="storeName" class="fw-bold"></p>
-                <div class="rating-stars mb-2">
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="nameOption" id="useName" value="name" checked>
+                        <label class="form-check-label" for="useName">Use My Name</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="nameOption" id="anonymous" value="anonymous">
+                        <label class="form-check-label" for="anonymous">Post Anonymously</label>
+                    </div>
+                </div>
+                <div id="nameInputContainer">
+                    <input type="text" class="form-control mb-3" id="name" placeholder="Your Name">
+                </div>
+                <div class="rating-stars mb-3">
                     <i class="fa fa-star" data-value="1"></i>
                     <i class="fa fa-star" data-value="2"></i>
                     <i class="fa fa-star" data-value="3"></i>
                     <i class="fa fa-star" data-value="4"></i>
                     <i class="fa fa-star" data-value="5"></i>
                 </div>
-                <input type="text" placeholder="Your Name" id="name"></input> <br><br>
-
-                <textarea id="reviewText" class="form-control mb-2" placeholder="Write your review..."></textarea>
-               
-
+                <textarea id="reviewText" class="form-control mb-2" placeholder="Write your review..." rows="4"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -106,6 +115,7 @@
         </div>
     </div>
 </div>
+
 
 <footer class="footer">
   <div class="footer-container">

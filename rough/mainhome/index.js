@@ -1,5 +1,3 @@
-
-
 // document.addEventListener("DOMContentLoaded", function() {
   const stores = [
     {
@@ -306,7 +304,62 @@ function updateWelcomeMessage() {
 }
 
 // Run the function when the page loads
-document.addEventListener("DOMContentLoaded", updateWelcomeMessage);
+document.addEventListener("DOMContentLoaded", function() {
+  updateWelcomeMessage();
+  
+  // Initialize radio button functionality
+  const nameInputContainer = document.getElementById("nameInputContainer");
+  const useNameRadio = document.getElementById("useName");
+  const anonymousRadio = document.getElementById("anonymous");
+  
+  if (useNameRadio && anonymousRadio) {
+    useNameRadio.addEventListener("change", function() {
+      if (this.checked) {
+        nameInputContainer.style.display = "block";
+      }
+    });
+    
+    anonymousRadio.addEventListener("change", function() {
+      if (this.checked) {
+        nameInputContainer.style.display = "none";
+      }
+    });
+    
+    // Set initial state based on logged in user
+    const loggedInUser = getLoggedInUser();
+    if (loggedInUser) {
+      document.getElementById("name").value = loggedInUser.name;
+      useNameRadio.checked = true;
+      nameInputContainer.style.display = "block";
+    } else {
+      anonymousRadio.checked = true;
+      nameInputContainer.style.display = "none";
+    }
+  }
+  
+  // Initialize star rating functionality
+  let starsContainer = document.querySelector(".rating-stars");
+  if (starsContainer) {
+    starsContainer.addEventListener("click", function (event) {
+      let clickedStar = event.target;
+
+      // Check if a star (i element) was clicked
+      if (clickedStar.tagName === "I") {
+        let rating = parseInt(clickedStar.getAttribute("data-value"));
+
+        // Remove "selected" from all stars
+        document.querySelectorAll(".rating-stars i").forEach(star => {
+          star.classList.remove("selected");
+        });
+
+        // Add "selected" class to clicked star and all previous ones
+        for (let i = 0; i < rating; i++) {
+          document.querySelectorAll(".rating-stars i")[i].classList.add("selected");
+        }
+      }
+    });
+  }
+});
 
 function displayCards(cat) {
   let catWiseData = document.getElementById("catWiseData");
@@ -473,6 +526,9 @@ function openStoreDetailsPage(item) {
   const storedReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
   const storeReviews = storedReviews.filter(review => review.storeName === item.name);
   
+  // Sort reviews by date (newest first)
+  storeReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+  
   if (storeReviews.length === 0) {
     let noReviews = document.createElement("p");
     noReviews.innerText = "No reviews yet. Be the first to leave a review!";
@@ -496,7 +552,7 @@ function openStoreDetailsPage(item) {
       reviewHeader.style.marginBottom = "10px";
       
       let reviewer = document.createElement("strong");
-      reviewer.innerText = review.username || "Anonymous";
+      reviewer.innerText = review.username;
       
       let stars = document.createElement("div");
       stars.innerHTML = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
@@ -507,9 +563,17 @@ function openStoreDetailsPage(item) {
       
       let reviewContent = document.createElement("p");
       reviewContent.innerText = review.text;
+      reviewContent.style.marginBottom = "10px";
+      
+      let reviewDate = document.createElement("div");
+      reviewDate.innerText = review.date;
+      reviewDate.style.fontSize = "0.8em";
+      reviewDate.style.color = "#666";
+      reviewDate.style.textAlign = "right";
       
       reviewCard.appendChild(reviewHeader);
       reviewCard.appendChild(reviewContent);
+      reviewCard.appendChild(reviewDate);
       
       reviewsSection.appendChild(reviewCard);
     });
@@ -537,58 +601,36 @@ function openReviewModal(storeName, category) {
   // Store the category in the modal's dataset for later use
   const modal = document.getElementById("reviewModal");
   modal.dataset.category = category;
+  modal.dataset.storeName = storeName;
+  
+  // Set up name/anonymous options
+  const loggedInUser = getLoggedInUser();
+  const nameInput = document.getElementById("name");
+  
+  if (loggedInUser) {
+    nameInput.value = loggedInUser.name;
+    document.getElementById("useName").checked = true;
+    document.getElementById("nameInputContainer").style.display = "block";
+  } else {
+    document.getElementById("anonymous").checked = true;
+    document.getElementById("nameInputContainer").style.display = "none";
+  }
   
   let reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
   reviewModal.show();
 }
 
-// Event listeners for category buttons
-const res_btn = document.getElementById("res_div");
-res_btn.addEventListener("click", () => displayCards("restaurants"));
-
-const night_btn = document.getElementById("night_div");
-night_btn.addEventListener("click", () => displayCards("nightlife"));
-
-const pub_btn = document.getElementById("shop_div");
-pub_btn.addEventListener("click", () => displayCards("shopping"));
-
-const jwle_btn = document.getElementById("jew_div");
-jwle_btn.addEventListener("click", () => displayCards("jewelry"));
-
-// Stars rating functionality
-document.addEventListener("DOMContentLoaded", function () {
-  let starsContainer = document.querySelector(".rating-stars");
-
-  // Ensure the container exists
-  if (starsContainer) {
-    starsContainer.addEventListener("click", function (event) {
-      let clickedStar = event.target;
-
-      // Check if a star (i element) was clicked
-      if (clickedStar.tagName === "I") {
-        let rating = parseInt(clickedStar.getAttribute("data-value"));
-
-        // Remove "selected" from all stars
-        document.querySelectorAll(".rating-stars i").forEach(star => {
-          star.classList.remove("selected");
-        });
-
-        // Add "selected" class to clicked star and all previous ones
-        for (let i = 0; i < rating; i++) {
-          document.querySelectorAll(".rating-stars i")[i].classList.add("selected");
-        }
-      }
-    });
-  }
-});
-
 // Submit review functionality with SweetAlert
-document.getElementById("submitReview").addEventListener("click", function () {
+document.getElementById("submitReview").addEventListener("click", function() {
   let reviewText = document.getElementById("reviewText").value;
   let selectedStars = document.querySelectorAll(".rating-stars i.selected").length;
   const modal = document.getElementById("reviewModal");
   const category = modal.dataset.category;
-  const userName = document.getElementById("name").value;
+  const storeName = modal.dataset.storeName;
+  
+  // Determine if user wants to post anonymously
+  const postAnonymously = document.getElementById("anonymous").checked;
+  let userName = postAnonymously ? "Anonymous" : document.getElementById("name").value;
 
   if (selectedStars === 0) {
     Swal.fire("Oops!", "Please select a star rating before submitting!", "warning");
@@ -600,6 +642,11 @@ document.getElementById("submitReview").addEventListener("click", function () {
     return;
   }
   
+  if (!postAnonymously && userName.trim() === "") {
+    Swal.fire("Oops!", "Please enter your name or select anonymous!", "warning");
+    return;
+  }
+  
   let existingReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
 
   let newReview = {
@@ -607,7 +654,14 @@ document.getElementById("submitReview").addEventListener("click", function () {
     text: reviewText,
     stars: selectedStars,
     category: category,
-    storeName: document.getElementById("storeName").innerText.replace("Review for: ", "")
+    storeName: storeName,
+    date: new Date().toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
   };
 
   existingReviews.push(newReview);
@@ -625,31 +679,35 @@ document.getElementById("submitReview").addEventListener("click", function () {
     if (reviewModal) {
       reviewModal.hide();
     }
+    
+    // Refresh the reviews display
+    const detailsPage = document.querySelector("div[style*='position: fixed; top: 0']");
+    if (detailsPage) {
+      const storeTitle = document.querySelector("h1").innerText;
+      const currentStore = stores.find(store => store.name === storeTitle);
+      if (currentStore) {
+        document.body.removeChild(detailsPage);
+        openStoreDetailsPage(currentStore);
+      }
+    }
   });
 });
 
-// Helper function to filter reviews by category
-function getReviewsByCategory(category) {
-  const storedReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
-  return storedReviews.filter(review => review.category === category);
-}
+// Event listeners for category buttons
+const res_btn = document.getElementById("res_div");
+res_btn.addEventListener("click", () => displayCards("restaurants"));
 
-// Find the reviews section in the current details page and update it
-let reviewsSection = document.querySelector("div[data-store='" + storeName + "']");
-if (reviewsSection) {
-  // Clear existing "No reviews" message if it exists
-  let noReviews = reviewsSection.querySelector("p");
-  if (noReviews && noReviews.innerText.includes("No reviews yet")) {
-    reviewsSection.removeChild(noReviews);
-  }
-  
-  // Create and add the new review card
-  let reviewCard = createReviewCard(newReview);
-  reviewsSection.appendChild(reviewCard);
-}
+const night_btn = document.getElementById("night_div");
+night_btn.addEventListener("click", () => displayCards("nightlife"));
 
-// Add an event listener to the search input
-document.getElementById("searchInput").addEventListener("input", function () {
+const pub_btn = document.getElementById("shop_div");
+pub_btn.addEventListener("click", () => displayCards("shopping"));
+
+const jwle_btn = document.getElementById("jew_div");
+jwle_btn.addEventListener("click", () => displayCards("jewelry"));
+
+// Search functionality
+document.getElementById("searchInput").addEventListener("input", function() {
   const searchQuery = this.value.toLowerCase();
   const filteredStores = stores.filter(store =>
     store.category.toLowerCase().includes(searchQuery) ||
@@ -659,7 +717,6 @@ document.getElementById("searchInput").addEventListener("input", function () {
 });
 
 function displaySearchResults(filteredStores) {
-  // Use querySelector correctly with a class selector
   const container = document.querySelector(".container");
   const table = document.getElementById("allReviewsContainer");
   
@@ -704,7 +761,7 @@ function displaySearchResults(filteredStores) {
     catWiseData.appendChild(shopdiv);
 
     shopdiv.addEventListener("click", () => {
-      openReviewModal(item.name, item.category);
+      openStoreDetailsPage(item);
     });
   });
 }
