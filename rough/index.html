@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing Page with Animations</title>
+    <title>Smart Review & Rating Platform</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -22,7 +22,11 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark animate__animated animate__fadeInDown">
     <div class="container">
-        <a class="navbar-brand" href="#">REVIEW SYSTEM</a>
+        <img src="https://static.thenounproject.com/noun-svg/347540.svg?Expires=1746083144&Signature=mHXYq5OG2LMo3CT2ZPb1mtfwWZOpClibh6PvzAcLdcON1xXkStd6hTmyIEX7iyFuCThpcfohTfrPiyfZ0iBx6u6xXW5CfP-CZZkiHZv1t5HptsgQ9REzk564I4T-WnxdPb2VjHCaK~aOqivxitsWSHj3mUoqsEVtIZR87Qyq-bw_&Key-Pair-Id=APKAI5ZVHAXN65CHVU2Q" alt="LOGO" width="50px"/>
+        
+        <a class="navbar-brand" href="#">Feedback Hub
+
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -66,17 +70,20 @@
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control" id="signupEmail" required>
                     </div>
-                    <!-- <a href="../../rough/mainhome/index.html"></a> -->
                     <div class="mb-3">
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control" id="signupPassword" required>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                    <div class="text-center mt-3">
+                        Already have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Login here</a>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Login Modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -91,13 +98,15 @@
                     <div class="mb-3">
                         <label class="form-label">Email</label>
                         <input type="email" class="form-control" id="loginEmail" required>
-                        <!-- <a href="../../rough/mainhome/index.html"></a> -->
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
                         <input type="password" class="form-control" id="loginPassword" required>
                     </div>
                     <button type="submit" class="btn btn-success w-100">Login</button>
+                    <div class="text-center mt-3">
+                        Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupModal" data-bs-dismiss="modal">Sign up here</a>
+                    </div>
                 </form>
             </div>
         </div>
