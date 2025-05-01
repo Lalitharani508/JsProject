@@ -308,28 +308,21 @@ function updateWelcomeMessage() {
 // Run the function when the page loads
 document.addEventListener("DOMContentLoaded", updateWelcomeMessage);
 
-
-
-
 function displayCards(cat) {
-  let catWiseData = document.getElementById("catWiseData")
- 
+  let catWiseData = document.getElementById("catWiseData");
 
   catWiseData.innerHTML = "";
-  catWiseData.style.display = "flex"
-  catWiseData.style.flexWrap = "wrap"
+  catWiseData.style.display = "flex";
+  catWiseData.style.flexWrap = "wrap";
   catWiseData.style.gap = "15px";
   catWiseData.style.padding = "20px";
-  catWiseData.style.alignItems = "center"
-  catWiseData.style.alignContent = "center"
-  catWiseData.style.justifyContent = "center"
-
+  catWiseData.style.alignItems = "center";
+  catWiseData.style.alignContent = "center";
+  catWiseData.style.justifyContent = "center";
 
   let filteredData = stores.filter(x => x.category === cat);
   filteredData.forEach((item) => {
-    let shopdiv = document.createElement("div")
-    let divs=document.querySelector("#allReviewsContainer")
-    divs.style.display="none"
+    let shopdiv = document.createElement("div");
   
     // Apply inline styles for card layout
     shopdiv.style.border = "1px solid #ddd";
@@ -344,10 +337,6 @@ function displayCards(cat) {
     shopdiv.style.transition = "transform 0.3s ease-in-out";
     shopdiv.style.backgroundColor = "#fff";
     shopdiv.style.cursor = "pointer";
-    
-
-
-
 
     shopdiv.addEventListener("mouseover", () => {
       shopdiv.style.transform = "scale(1.05)";
@@ -355,7 +344,6 @@ function displayCards(cat) {
     shopdiv.addEventListener("mouseout", () => {
       shopdiv.style.transform = "scale(1)";
     });
-
 
     // Image styling
     let img = document.createElement("img");
@@ -378,51 +366,196 @@ function displayCards(cat) {
     location.innerHTML = `<strong>Location:</strong> ${item.location}`;
     location.style.fontSize = "14px";
     location.style.color = "#666";
+    
     // Append elements to card
     shopdiv.appendChild(img);
     shopdiv.appendChild(title);
     shopdiv.appendChild(location);
     catWiseData.appendChild(shopdiv);
 
-
-
-    // shopdiv.addEventListener("click",()=>{
-    //   openReviewModal(item.name)
-    // })
+    // When card is clicked, open in new page with details
     shopdiv.addEventListener("click", () => {
-      openReviewModal(item.name, item.category); // Pass the category as well
+      openStoreDetailsPage(item);
     });
-
-
-
-  })
+  });
 }
 
+// Function to open store details in a new page
+function openStoreDetailsPage(item) {
+  // Create a new page/div that covers the entire screen
+  let detailsPage = document.createElement("div");
+  detailsPage.style.position = "fixed";
+  detailsPage.style.top = "0";
+  detailsPage.style.left = "0";
+  detailsPage.style.width = "100%";
+  detailsPage.style.height = "100%";
+  detailsPage.style.backgroundColor = "#fff";
+  detailsPage.style.zIndex = "1000";
+  detailsPage.style.overflow = "auto";
+  detailsPage.style.padding = "30px";
 
-const res_btn = document.getElementById("res_div")
-res_btn.addEventListener("click", () => displayCards("restaurants"))
+  // Add a back button
+  let backButton = document.createElement("button");
+  backButton.innerText = "← Back";
+  backButton.style.padding = "10px 15px";
+  backButton.style.backgroundColor = "#f0f0f0";
+  backButton.style.border = "none";
+  backButton.style.borderRadius = "5px";
+  backButton.style.cursor = "pointer";
+  backButton.style.marginBottom = "20px";
+  backButton.addEventListener("click", () => {
+    document.body.removeChild(detailsPage);
+  });
 
-const night_btn = document.getElementById("night_div")
-night_btn.addEventListener("click", () => displayCards("nightlife"))
-const pub_btn = document.getElementById("shop_div")
-pub_btn.addEventListener("click", () => displayCards("shopping"))
-const jwle_btn = document.getElementById("jew_div")
-jwle_btn.addEventListener("click", () => displayCards("jewelry"))
+  // Create content container
+  let contentContainer = document.createElement("div");
+  contentContainer.style.display = "flex";
+  contentContainer.style.flexDirection = "column";
+  contentContainer.style.alignItems = "center";
+  contentContainer.style.maxWidth = "800px";
+  contentContainer.style.margin = "0 auto";
 
+  // Store image
+  let img = document.createElement("img");
+  img.src = item.image_url;
+  img.alt = item.name;
+  img.style.width = "100%";
+  img.style.maxHeight = "400px";
+  img.style.objectFit = "cover";
+  img.style.borderRadius = "10px";
+  img.style.marginBottom = "20px";
 
+  // Store details
+  let title = document.createElement("h1");
+  title.innerText = item.name;
+  title.style.fontSize = "28px";
+  title.style.margin = "10px 0";
 
-function openReviewModal(storeName) {
+  let category = document.createElement("p");
+  category.innerHTML = `<strong>Category:</strong> ${item.category}`;
+  category.style.fontSize = "16px";
+
+  let location = document.createElement("p");
+  location.innerHTML = `<strong>Location:</strong> ${item.location}`;
+  location.style.fontSize = "16px";
+  location.style.marginBottom = "20px";
+
+  // Write a review button
+  let reviewButton = document.createElement("button");
+  reviewButton.innerText = "Write a Review";
+  reviewButton.style.padding = "12px 20px";
+  reviewButton.style.backgroundColor = "#007bff";
+  reviewButton.style.color = "#fff";
+  reviewButton.style.border = "none";
+  reviewButton.style.borderRadius = "5px";
+  reviewButton.style.cursor = "pointer";
+  reviewButton.style.fontSize = "16px";
+  reviewButton.style.marginTop = "20px";
+  reviewButton.addEventListener("click", () => {
+    openReviewModal(item.name, item.category);
+  });
+
+  // Reviews section
+  let reviewsSection = document.createElement("div");
+  reviewsSection.style.width = "100%";
+  reviewsSection.style.marginTop = "40px";
+  
+  let reviewsTitle = document.createElement("h2");
+  reviewsTitle.innerText = "Reviews";
+  reviewsTitle.style.textAlign = "left";
+  reviewsTitle.style.width = "100%";
+  reviewsTitle.style.borderBottom = "1px solid #ddd";
+  reviewsTitle.style.paddingBottom = "10px";
+  
+  reviewsSection.appendChild(reviewsTitle);
+  
+  // Get reviews for this store
+  const storedReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
+  const storeReviews = storedReviews.filter(review => review.storeName === item.name);
+  
+  if (storeReviews.length === 0) {
+    let noReviews = document.createElement("p");
+    noReviews.innerText = "No reviews yet. Be the first to leave a review!";
+    noReviews.style.textAlign = "center";
+    noReviews.style.marginTop = "20px";
+    noReviews.style.color = "#666";
+    reviewsSection.appendChild(noReviews);
+  } else {
+    // Display reviews
+    storeReviews.forEach(review => {
+      let reviewCard = document.createElement("div");
+      reviewCard.style.border = "1px solid #eee";
+      reviewCard.style.borderRadius = "8px";
+      reviewCard.style.padding = "15px";
+      reviewCard.style.margin = "15px 0";
+      reviewCard.style.backgroundColor = "#f9f9f9";
+      
+      let reviewHeader = document.createElement("div");
+      reviewHeader.style.display = "flex";
+      reviewHeader.style.justifyContent = "space-between";
+      reviewHeader.style.marginBottom = "10px";
+      
+      let reviewer = document.createElement("strong");
+      reviewer.innerText = review.username || "Anonymous";
+      
+      let stars = document.createElement("div");
+      stars.innerHTML = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
+      stars.style.color = "#ffc107";
+      
+      reviewHeader.appendChild(reviewer);
+      reviewHeader.appendChild(stars);
+      
+      let reviewContent = document.createElement("p");
+      reviewContent.innerText = review.text;
+      
+      reviewCard.appendChild(reviewHeader);
+      reviewCard.appendChild(reviewContent);
+      
+      reviewsSection.appendChild(reviewCard);
+    });
+  }
+
+  // Append all elements
+  contentContainer.appendChild(img);
+  contentContainer.appendChild(title);
+  contentContainer.appendChild(category);
+  contentContainer.appendChild(location);
+  contentContainer.appendChild(reviewButton);
+  contentContainer.appendChild(reviewsSection);
+
+  detailsPage.appendChild(backButton);
+  detailsPage.appendChild(contentContainer);
+  document.body.appendChild(detailsPage);
+}
+
+// Function to open the review modal
+function openReviewModal(storeName, category) {
   document.getElementById("storeName").innerText = `Review for: ${storeName}`;
   document.getElementById("reviewText").value = "";
-  // document.getElementById("reviewImage").value = "";
   document.querySelectorAll(".rating-stars i").forEach(star => star.classList.remove("selected"));
+  
+  // Store the category in the modal's dataset for later use
+  const modal = document.getElementById("reviewModal");
+  modal.dataset.category = category;
+  
   let reviewModal = new bootstrap.Modal(document.getElementById("reviewModal"));
   reviewModal.show();
 }
 
+// Event listeners for category buttons
+const res_btn = document.getElementById("res_div");
+res_btn.addEventListener("click", () => displayCards("restaurants"));
 
+const night_btn = document.getElementById("night_div");
+night_btn.addEventListener("click", () => displayCards("nightlife"));
 
-//stars
+const pub_btn = document.getElementById("shop_div");
+pub_btn.addEventListener("click", () => displayCards("shopping"));
+
+const jwle_btn = document.getElementById("jew_div");
+jwle_btn.addEventListener("click", () => displayCards("jewelry"));
+
+// Stars rating functionality
 document.addEventListener("DOMContentLoaded", function () {
   let starsContainer = document.querySelector(".rating-stars");
 
@@ -449,17 +582,13 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-
-//sweetalerts
-
+// Submit review functionality with SweetAlert
 document.getElementById("submitReview").addEventListener("click", function () {
   let reviewText = document.getElementById("reviewText").value;
   let selectedStars = document.querySelectorAll(".rating-stars i.selected").length;
-  // const getdatafromstorage=JSON.parse(localStorage.getItem("ReviewsfromUsers"))
   const modal = document.getElementById("reviewModal");
-  const category = modal.dataset.category;  // Get the category
-  const userName=document.getElementById("name").value;
-
+  const category = modal.dataset.category;
+  const userName = document.getElementById("name").value;
 
   if (selectedStars === 0) {
     Swal.fire("Oops!", "Please select a star rating before submitting!", "warning");
@@ -470,11 +599,11 @@ document.getElementById("submitReview").addEventListener("click", function () {
     Swal.fire("Oops!", "Please write a review before submitting!", "warning");
     return;
   }
+  
   let existingReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
 
-
   let newReview = {
-    username:userName,
+    username: userName,
     text: reviewText,
     stars: selectedStars,
     category: category,
@@ -483,7 +612,6 @@ document.getElementById("submitReview").addEventListener("click", function () {
 
   existingReviews.push(newReview);
   localStorage.setItem("ReviewsfromUsers", JSON.stringify(existingReviews));
-
 
   Swal.fire({
     title: "Review Submitted!",
@@ -498,55 +626,27 @@ document.getElementById("submitReview").addEventListener("click", function () {
       reviewModal.hide();
     }
   });
-  
-
-})
-
-//all reviews button
-
-const allReviewsBtn = document.getElementById("allReviewsbtn")
-const allReviewsContainer = document.getElementById("allReviewsContainer")
-const reviewTable = document.getElementById("reviewTable")
-const tableBody = reviewTable.querySelector("tbody");
-
-
-allReviewsBtn.addEventListener("click", () => {
-  let divs=document.querySelector(".container")
-  divs.style.display="none"
-
-  const storedReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
-
-  tableBody.innerHTML = "";
-
-  if (storedReviews.length === 0) {
-    tableBody.innerHTML = "<tr><td colspan='3'>No reviews yet.</td></tr>"; // Added colspan for store name
-  } else {
-    storedReviews.forEach(review => {
-      const row = tableBody.insertRow();
-      const peopleCell = row.insertCell();
-      const storeCell = row.insertCell(); // Cell for store name
-      const textCell = row.insertCell();
-      const ratingCell = row.insertCell();
-
-      peopleCell.textContent = review.username||"anonymus" 
-      storeCell.textContent = review.storeName; // Add store name to the table
-      textCell.textContent = review.text;
-      ratingCell.textContent = review.stars;
-
-    });
-  }
-
-  allReviewsContainer.style.display = "block";
-  document.getElementById("catWiseData").style.display = "none";
-
 });
 
-// Add a function to filter reviews by category:
+// Helper function to filter reviews by category
 function getReviewsByCategory(category) {
   const storedReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
   return storedReviews.filter(review => review.category === category);
 }
 
+// Find the reviews section in the current details page and update it
+let reviewsSection = document.querySelector("div[data-store='" + storeName + "']");
+if (reviewsSection) {
+  // Clear existing "No reviews" message if it exists
+  let noReviews = reviewsSection.querySelector("p");
+  if (noReviews && noReviews.innerText.includes("No reviews yet")) {
+    reviewsSection.removeChild(noReviews);
+  }
+  
+  // Create and add the new review card
+  let reviewCard = createReviewCard(newReview);
+  reviewsSection.appendChild(reviewCard);
+}
 
 // Add an event listener to the search input
 document.getElementById("searchInput").addEventListener("input", function () {
@@ -558,91 +658,18 @@ document.getElementById("searchInput").addEventListener("input", function () {
   displaySearchResults(filteredStores);
 });
 
-// Function to display search results
-// function displaySearchResults(filteredStores) {
-//   let divs=document.querySelector(".container")
-//   let tabel=document.querySelector("#allReviewsContainer")
-//   tabel.style.display="none"
-//   divs.style.display="none"
-
-
-//   const catWiseData = document.getElementById("catWiseData");
-//   catWiseData.innerHTML = "";
-//   catWiseData.style.display = "flex";
-//   catWiseData.style.flexWrap = "wrap";
-//   catWiseData.style.gap = "15px";
-//   catWiseData.style.padding = "20px";
-//   catWiseData.style.alignItems = "center";
-//   catWiseData.style.alignContent = "center";
-//   catWiseData.style.justifyContent = "center";
-//   catWiseData.style.backgroundColor = "white"
-
-//   if (filteredStores.length === 0) {
-//     catWiseData.innerHTML = "<p>No results found.</p>";
-//     return;
-//   }
-
-//   filteredStores.forEach((item) => {
-//     let shopdiv = document.createElement("div");
-//     shopdiv.style.border = "1px solid #ddd";
-//     shopdiv.style.borderRadius = "10px";
-//     shopdiv.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
-//     shopdiv.style.margin = "10px";
-//     shopdiv.style.padding = "15px";
-//     shopdiv.style.width = "450px";
-//     shopdiv.style.textAlign = "center";
-//     shopdiv.style.justifyContent = "center";
-//     shopdiv.style.display = "inline-block";
-//     shopdiv.style.transition = "transform 0.3s ease-in-out";
-//     shopdiv.style.backgroundColor = "white";
-//     shopdiv.style.cursor = "pointer";
-//     // shopdiv.style.backgroundColor = "#EEF7"
-
-//     shopdiv.addEventListener("mouseover", () => {
-//       shopdiv.style.transform = "scale(1.05)";
-//     });
-//     shopdiv.addEventListener("mouseout", () => {
-//       shopdiv.style.transform = "scale(1)";
-//     });
-
-//     let img = document.createElement("img");
-//     img.src = item.image_url;
-//     img.alt = item.name;
-//     img.style.width = "100%";
-//     img.style.height = "180px";
-//     img.style.borderRadius = "8px";
-//     img.style.objectFit = "cover";
-
-//     let title = document.createElement("h2");
-//     title.innerText = item.name;
-//     title.style.fontSize = "18px";
-//     title.style.margin = "10px 0";
-//     title.style.color = "#333";
-
-//     let location = document.createElement("p");
-//     location.innerHTML = `<strong>Location:</strong> ${item.location}`;
-//     location.style.fontSize = "14px";
-//     location.style.color = "#666";
-
-//     shopdiv.appendChild(img);
-//     shopdiv.appendChild(title);
-//     shopdiv.appendChild(location);
-//     catWiseData.appendChild(shopdiv);
-
-//     shopdiv.addEventListener("click", () => {
-//       openReviewModal(item.name, item.category);
-//     });
-//   });
-// }
-
-
 function displaySearchResults(filteredStores) {
-  let divs = document.querySelector(".container");
-  let table = document.querySelector("#allReviewsContainer");
-  table.style.display = "none";
-  divs.style.display = "none";
+  // Use querySelector correctly with a class selector
+  const container = document.querySelector(".container");
+  const table = document.getElementById("allReviewsContainer");
+  
+  // Hide these elements when showing search results
+  if (table) table.style.display = "none";
+  if (container) container.style.display = "none";
 
   const catWiseData = document.getElementById("catWiseData");
+  if (!catWiseData) return; // Guard clause if element doesn't exist
+  
   catWiseData.innerHTML = "";
   catWiseData.style.display = "grid";
   catWiseData.style.gridTemplateColumns = "repeat(auto-fit, minmax(280px, 1fr))";
@@ -650,37 +677,34 @@ function displaySearchResults(filteredStores) {
   catWiseData.style.padding = "20px";
 
   if (filteredStores.length === 0) {
-      catWiseData.innerHTML = "<p style='text-align:center; font-size:18px; color:#555;'>No results found.</p>";
-      return;
+    catWiseData.innerHTML = "<p style='text-align:center; font-size:18px; color:#555;'>No results found.</p>";
+    return;
   }
 
   filteredStores.forEach((item) => {
-      let shopdiv = document.createElement("div");
-      shopdiv.classList.add("shop-card");
+    let shopdiv = document.createElement("div");
+    shopdiv.classList.add("shop-card");
 
-      let img = document.createElement("img");
-      img.src = item.image_url;
-      img.alt = item.name;
-      img.classList.add("shop-img");
+    let img = document.createElement("img");
+    img.src = item.image_url;
+    img.alt = item.name;
+    img.classList.add("shop-img");
 
-      let title = document.createElement("h3");
-      title.innerText = item.name;
-      title.classList.add("shop-title");
+    let title = document.createElement("h3");
+    title.innerText = item.name;
+    title.classList.add("shop-title");
 
-      let location = document.createElement("p");
-      location.innerHTML = `<strong>Location:</strong> ${item.location}`;
-      location.classList.add("shop-location");
+    let location = document.createElement("p");
+    location.innerHTML = `<strong>Location:</strong> ${item.location}`;
+    location.classList.add("shop-location");
 
-      shopdiv.appendChild(img);
-      shopdiv.appendChild(title);
-      shopdiv.appendChild(location);
-      catWiseData.appendChild(shopdiv);
+    shopdiv.appendChild(img);
+    shopdiv.appendChild(title);
+    shopdiv.appendChild(location);
+    catWiseData.appendChild(shopdiv);
 
-      shopdiv.addEventListener("click", () => {
-          openReviewModal(item.name, item.category);
-      });
+    shopdiv.addEventListener("click", () => {
+      openReviewModal(item.name, item.category);
+    });
   });
 }
-
-
-
