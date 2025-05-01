@@ -621,6 +621,7 @@ function openReviewModal(storeName, category) {
 }
 
 // Submit review functionality with SweetAlert
+// Update the submit review functionality
 document.getElementById("submitReview").addEventListener("click", function() {
   let reviewText = document.getElementById("reviewText").value;
   let selectedStars = document.querySelectorAll(".rating-stars i.selected").length;
@@ -667,29 +668,78 @@ document.getElementById("submitReview").addEventListener("click", function() {
   existingReviews.push(newReview);
   localStorage.setItem("ReviewsfromUsers", JSON.stringify(existingReviews));
 
+  // Close the modal immediately
+  let reviewModal = bootstrap.Modal.getInstance(document.getElementById("reviewModal"));
+  if (reviewModal) {
+    reviewModal.hide();
+  }
+
+  // Find the current details page
+  const detailsPage = document.querySelector("div[style*='position: fixed; top: 0']");
+  if (detailsPage) {
+    // Find the reviews section
+    const reviewsSection = detailsPage.querySelector("div[style*='marginTop: 40px']");
+    
+    if (reviewsSection) {
+      // Remove "No reviews" message if it exists
+      const noReviews = reviewsSection.querySelector("p");
+      if (noReviews && noReviews.innerText.includes("No reviews yet")) {
+        reviewsSection.removeChild(noReviews);
+      }
+      
+      // Create the new review card
+      const reviewCard = document.createElement("div");
+      reviewCard.style.border = "1px solid #eee";
+      reviewCard.style.borderRadius = "8px";
+      reviewCard.style.padding = "15px";
+      reviewCard.style.margin = "15px 0";
+      reviewCard.style.backgroundColor = "#f9f9f9";
+      
+      const reviewHeader = document.createElement("div");
+      reviewHeader.style.display = "flex";
+      reviewHeader.style.justifyContent = "space-between";
+      reviewHeader.style.marginBottom = "10px";
+      
+      const reviewer = document.createElement("strong");
+      reviewer.innerText = newReview.username;
+      
+      const stars = document.createElement("div");
+      stars.innerHTML = "★".repeat(newReview.stars) + "☆".repeat(5 - newReview.stars);
+      stars.style.color = "#ffc107";
+      
+      reviewHeader.appendChild(reviewer);
+      reviewHeader.appendChild(stars);
+      
+      const reviewContent = document.createElement("p");
+      reviewContent.innerText = newReview.text;
+      reviewContent.style.marginBottom = "10px";
+      
+      const reviewDate = document.createElement("div");
+      reviewDate.innerText = newReview.date;
+      reviewDate.style.fontSize = "0.8em";
+      reviewDate.style.color = "#666";
+      reviewDate.style.textAlign = "right";
+      
+      reviewCard.appendChild(reviewHeader);
+      reviewCard.appendChild(reviewContent);
+      reviewCard.appendChild(reviewDate);
+      
+      // Insert the new review at the top of the reviews section
+      const reviewsTitle = reviewsSection.querySelector("h2");
+      if (reviewsTitle) {
+        reviewsSection.insertBefore(reviewCard, reviewsTitle.nextSibling);
+      } else {
+        reviewsSection.appendChild(reviewCard);
+      }
+    }
+  }
+
+  // Show success message after DOM updates
   Swal.fire({
     title: "Review Submitted!",
     text: "Thank you for your feedback.",
     icon: "success",
     confirmButtonText: "OK"
-  }).then(() => {
-    let reviewModalElement = document.getElementById("reviewModal");
-    let reviewModal = bootstrap.Modal.getInstance(reviewModalElement); 
-  
-    if (reviewModal) {
-      reviewModal.hide();
-    }
-    
-    // Refresh the reviews display
-    const detailsPage = document.querySelector("div[style*='position: fixed; top: 0']");
-    if (detailsPage) {
-      const storeTitle = document.querySelector("h1").innerText;
-      const currentStore = stores.find(store => store.name === storeTitle);
-      if (currentStore) {
-        document.body.removeChild(detailsPage);
-        openStoreDetailsPage(currentStore);
-      }
-    }
   });
 });
 
