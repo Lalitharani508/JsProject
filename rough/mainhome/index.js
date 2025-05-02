@@ -856,3 +856,21 @@ function displaySearchResults(filteredStores) {
     });
   });
 }
+
+
+function handleLogout() {
+  Swal.fire({
+      title: 'Logout Confirmation',
+      text: 'Are you sure you want to logout?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#0D4DFF',
+      cancelButtonColor: '#ff4444',
+      confirmButtonText: 'Yes, Logout'
+  }).then((result) => {
+      if (result.isConfirmed) {
+          // Add your logout logic here
+          window.location.href = '../index.html';
+      }
+  });
+}
