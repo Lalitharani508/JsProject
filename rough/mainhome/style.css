@@ -442,9 +442,13 @@ h1 {
     }
 }
 
+
+
+
+
 @media (max-width: 480px) {
     .logout-text {
-        display: none;
+        /* display: none; */
     }
     
     .logout-btn {
@@ -455,4 +459,5 @@ h1 {
     .logout-btn i {
         font-size: 1.3rem;
     }
+    
 }

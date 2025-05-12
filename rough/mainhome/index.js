@@ -620,6 +620,36 @@ function openReviewModal(storeName, category) {
   reviewModal.show();
 }
 
+// Radio button event listeners to show/hide name input
+document.getElementById("useName").addEventListener("change", function() {
+  document.getElementById("nameInputContainer").style.display = "block";
+});
+
+document.getElementById("anonymous").addEventListener("change", function() {
+  document.getElementById("nameInputContainer").style.display = "none";
+});
+
+// Star rating functionality
+document.querySelectorAll(".rating-stars i").forEach(star => {
+  star.addEventListener("click", function() {
+    const value = parseInt(this.dataset.value);
+    
+    // Reset all stars
+    document.querySelectorAll(".rating-stars i").forEach(s => {
+      s.classList.remove("selected");
+      s.style.color = "#ccc"; // Default color
+    });
+    
+    // Set selected stars
+    document.querySelectorAll(".rating-stars i").forEach(s => {
+      if (parseInt(s.dataset.value) <= value) {
+        s.classList.add("selected");
+        s.style.color = "#ffc107"; // Gold color for selected stars
+      }
+    });
+  });
+});
+
 // Submit review functionality with SweetAlert
 // Update the submit review functionality
 document.getElementById("submitReview").addEventListener("click", function() {
@@ -675,10 +705,10 @@ document.getElementById("submitReview").addEventListener("click", function() {
 
   // Clear form
   document.getElementById("reviewText").value = "";
-  document.querySelectorAll(".rating-stars i").forEach(star => star.classList.remove("selected"));
-
-  // Immediately update the UI
-  updateReviewsUI(storeName, newReview);
+  document.querySelectorAll(".rating-stars i").forEach(star => {
+    star.classList.remove("selected");
+    star.style.color = "#ccc";
+  });
 
   // Show success message
   Swal.fire({
@@ -687,7 +717,9 @@ document.getElementById("submitReview").addEventListener("click", function() {
     icon: "success",
     confirmButtonText: "OK"
   });
-  updateReviewsUI(newReview)
+  
+  // Immediately update the UI
+  updateReviewsUI(storeName, newReview);
 });
 
 // Function to update UI with new review
@@ -767,23 +799,11 @@ function updateReviewsUI(storeName, newReview) {
   }
 
   // Also update the store's average rating if needed
-  updateStoreRating(storeName);
-}
-
-// Optional: Function to update store's average rating
-function updateStoreRating(storeName) {
-  const store = stores.find(s => s.name === storeName);
-  if (!store || !store.rating) return;
-  
-  const allReviews = JSON.parse(localStorage.getItem("ReviewsfromUsers")) || [];
-  const storeReviews = allReviews.filter(r => r.storeName === storeName);
-  
-  if (storeReviews.length > 0) {
-    const avgRating = storeReviews.reduce((sum, review) => sum + review.stars, 0) / storeReviews.length;
-    store.rating = parseFloat(avgRating.toFixed(1));
-    store.reviews = storeReviews.length;
+  if (typeof updateStoreRating === 'function') {
+    updateStoreRating(storeName);
   }
 }
+
 // Event listeners for category buttons
 const res_btn = document.getElementById("res_div");
 res_btn.addEventListener("click", () => displayCards("restaurants"));
@@ -832,6 +852,7 @@ function displaySearchResults(filteredStores) {
   filteredStores.forEach((item) => {
     let shopdiv = document.createElement("div");
     shopdiv.classList.add("shop-card");
+    // shop-card.style.width="";
 
     let img = document.createElement("img");
     img.src = item.image_url;

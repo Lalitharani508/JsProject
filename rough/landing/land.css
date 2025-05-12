@@ -14,6 +14,7 @@ body {
     background: url('https://www.useresponse.com/blog/wp-content/uploads/2022/09/featured-1-1024x534.png') no-repeat center center/cover;
     text-align: center;
     color: white;
+    height:100vh
 }
 
 .hero-section h1 {
