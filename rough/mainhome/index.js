@@ -383,7 +383,7 @@ function displayCards(cat) {
     shopdiv.style.boxShadow = "0 4px 8px rgba(0,0,0,0.1)";
     shopdiv.style.margin = "10px";
     shopdiv.style.padding = "15px";
-    shopdiv.style.width = "450px";
+    shopdiv.style.width = "350px";
     shopdiv.style.textAlign = "center";
     shopdiv.style.justifyContent = "center";
     shopdiv.style.display = "inline-block";
@@ -465,7 +465,7 @@ function openStoreDetailsPage(item) {
   contentContainer.style.display = "flex";
   contentContainer.style.flexDirection = "column";
   contentContainer.style.alignItems = "center";
-  contentContainer.style.maxWidth = "800px";
+  contentContainer.style.maxWidth = "700px";
   contentContainer.style.margin = "0 auto";
 
   // Store image
@@ -852,7 +852,7 @@ function displaySearchResults(filteredStores) {
   filteredStores.forEach((item) => {
     let shopdiv = document.createElement("div");
     shopdiv.classList.add("shop-card");
-    // shop-card.style.width="";
+    // shop-card.style.width="100px";
 
     let img = document.createElement("img");
     img.src = item.image_url;

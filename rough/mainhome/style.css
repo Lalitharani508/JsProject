@@ -461,3 +461,9 @@ h1 {
     }
     
 }
+
+@media (min-width:700px) and (max-width:1440px){
+    .shop-card{
+        width: 300px;
+    }
+}
