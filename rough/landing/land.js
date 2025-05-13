@@ -1,19 +1,19 @@
 // Function to get logged-in users from localStorage
 
 // Function to update the welcome message
-function updateWelcomeMessage() {
-    let loggedInUser = getLoggedInUser();
-    let welcomeMessage = document.getElementById("welcomeMessage");
+// function updateWelcomeMessage() {
+//     let loggedInUser = getLoggedInUser();
+//     let welcomeMessage = document.getElementById("welcomeMessage");
 
-    if (loggedInUser) {
-        welcomeMessage.textContent = `Welcome, ${loggedInUser.name}!`;
-    } else {
-        welcomeMessage.textContent = "";
-    }
-}
+//     if (loggedInUser) {
+//         welcomeMessage.textContent = `Welcome, ${loggedInUser.name}!`;
+//     } else {
+//         welcomeMessage.textContent = "";
+//     }
+// }
 
 // Run the function when the page loads
-document.addEventListener("DOMContentLoaded", updateWelcomeMessage);
+// document.addEventListener("DOMContentLoaded", updateWelcomeMessage);
 
 
 

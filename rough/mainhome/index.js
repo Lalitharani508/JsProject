@@ -75,21 +75,21 @@
       "id": "clothes_001",
       "category": "shopping",
       "name": "Saree Sensation",
-      "image_url": "https://i.pinimg.com/736x/3e/49/c8/3e49c811ab09a8efe5bffd3d8ab72036.jpg",
+      "image_url": "https://i.pinimg.com/736x/d3/3d/a5/d33da56dc56a914d85995104d224dd86.jpg",
       "location": "123 Fashion Street, Mumbai, Maharashtra"
     },
     {
       "id": "clothes_002",
       "category": "shopping",
       "name": "Ethnic Elegance",
-      "image_url": "https://i.pinimg.com/736x/ee/9a/46/ee9a4613d6d50e4521570be52d30719a.jpg",
+      "image_url": "https://i.pinimg.com/736x/8b/81/1a/8b811aeede08ce19de4edd3df3ae38b0.jpg",
       "location": "456 Chandni Chowk, Delhi, Delhi"
     },
     {
       "id": "clothes_003",
       "category": "shopping",
       "name": "Silk Emporium",
-      "image_url": "https://i.pinimg.com/736x/4a/e9/48/4ae94860d8160431bf267ca6cbfefd32.jpg",
+      "image_url": "https://i.pinimg.com/736x/4e/26/5e/4e265eb0f67bf634fdaa6d0020c1c352.jpg",
       "location": "789 Commercial Street, Bangalore, Karnataka"
     },
     {
@@ -103,7 +103,7 @@
       "id": "clothes_005",
       "category": "shopping",
       "name": "Modern Kurta",
-      "image_url": "https://i.pinimg.com/736x/ee/9a/46/ee9a4613d6d50e4521570be52d30719a.jpg",
+      "image_url": "https://i.pinimg.com/736x/cf/0b/d7/cf0bd71b9f73906643577120395cb171.jpg",
       "location": "654 Linking Road, Mumbai, Maharashtra"
     },
     {
@@ -131,7 +131,7 @@
       "id": "clothes_009",
       "category": "shopping",
       "name": "Banarasi Boutique",
-      "image_url": "https://i.pinimg.com/736x/b6/81/3e/b6813e90a7fe94ef854b84e50df496d7.jpg",
+      "image_url": "https://i.pinimg.com/736x/1e/13/54/1e13546742772ee306421f370f0af9cf.jpg",
       "location": "852 Vishwanath Gali, Varanasi, Uttar Pradesh"
     },
     {
@@ -291,21 +291,11 @@ function getLoggedInUser() {
   return users.length > 0 ? users[users.length - 1] : null;  // Show the most recent user
 }
 
-// Function to update the welcome message
-function updateWelcomeMessage() {
-  let loggedInUser = getLoggedInUser();
-  let welcomeMessage = document.getElementById("welcomeMessage");
 
-  if (loggedInUser) {
-      welcomeMessage.textContent = `Welcome, ${loggedInUser.name}!`;
-  } else {
-      welcomeMessage.textContent = "";
-  }
-}
 
 // Run the function when the page loads
 document.addEventListener("DOMContentLoaded", function() {
-  updateWelcomeMessage();
+
   
   // Initialize radio button functionality
   const nameInputContainer = document.getElementById("nameInputContainer");
@@ -433,10 +423,11 @@ function displayCards(cat) {
   });
 }
 
-// Function to open store details in a new page
+// Function to open store details in a page
 function openStoreDetailsPage(item) {
   // Create a new page/div that covers the entire screen
   let detailsPage = document.createElement("div");
+  detailsPage.id = "storeDetailsPage";  // Adding ID for easier reference
   detailsPage.style.position = "fixed";
   detailsPage.style.top = "0";
   detailsPage.style.left = "0";
@@ -510,6 +501,7 @@ function openStoreDetailsPage(item) {
 
   // Reviews section
   let reviewsSection = document.createElement("div");
+  reviewsSection.id = "reviewsSection";  // Adding ID for easier reference
   reviewsSection.style.width = "100%";
   reviewsSection.style.marginTop = "40px";
   
@@ -531,6 +523,7 @@ function openStoreDetailsPage(item) {
   
   if (storeReviews.length === 0) {
     let noReviews = document.createElement("p");
+    noReviews.id = "noReviewsMessage";  // Adding ID for easier reference
     noReviews.innerText = "No reviews yet. Be the first to leave a review!";
     noReviews.style.textAlign = "center";
     noReviews.style.marginTop = "20px";
@@ -539,42 +532,7 @@ function openStoreDetailsPage(item) {
   } else {
     // Display reviews
     storeReviews.forEach(review => {
-      let reviewCard = document.createElement("div");
-      reviewCard.style.border = "1px solid #eee";
-      reviewCard.style.borderRadius = "8px";
-      reviewCard.style.padding = "15px";
-      reviewCard.style.margin = "15px 0";
-      reviewCard.style.backgroundColor = "#f9f9f9";
-      
-      let reviewHeader = document.createElement("div");
-      reviewHeader.style.display = "flex";
-      reviewHeader.style.justifyContent = "space-between";
-      reviewHeader.style.marginBottom = "10px";
-      
-      let reviewer = document.createElement("strong");
-      reviewer.innerText = review.username;
-      
-      let stars = document.createElement("div");
-      stars.innerHTML = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
-      stars.style.color = "#ffc107";
-      
-      reviewHeader.appendChild(reviewer);
-      reviewHeader.appendChild(stars);
-      
-      let reviewContent = document.createElement("p");
-      reviewContent.innerText = review.text;
-      reviewContent.style.marginBottom = "10px";
-      
-      let reviewDate = document.createElement("div");
-      reviewDate.innerText = review.date;
-      reviewDate.style.fontSize = "0.8em";
-      reviewDate.style.color = "#666";
-      reviewDate.style.textAlign = "right";
-      
-      reviewCard.appendChild(reviewHeader);
-      reviewCard.appendChild(reviewContent);
-      reviewCard.appendChild(reviewDate);
-      
+      let reviewCard = createReviewCard(review);
       reviewsSection.appendChild(reviewCard);
     });
   }
@@ -590,6 +548,50 @@ function openStoreDetailsPage(item) {
   detailsPage.appendChild(backButton);
   detailsPage.appendChild(contentContainer);
   document.body.appendChild(detailsPage);
+}
+
+// Helper function to create a review card - extracted for reuse
+function createReviewCard(review) {
+  let reviewCard = document.createElement("div");
+  reviewCard.style.border = "1px solid #eee";
+  reviewCard.style.borderRadius = "8px";
+  reviewCard.style.padding = "15px";
+  reviewCard.style.margin = "15px 0";
+  reviewCard.style.backgroundColor = "#f9f9f9";
+  
+  let reviewHeader = document.createElement("div");
+  reviewHeader.style.display = "flex";
+  reviewHeader.style.justifyContent = "space-between";
+  reviewHeader.style.marginBottom = "10px";
+  
+  let reviewer = document.createElement("strong");
+  reviewer.innerText = review.username;
+  
+  let stars = document.createElement("div");
+  stars.innerHTML = "★".repeat(review.stars) + "☆".repeat(5 - review.stars);
+  stars.style.color = "#ffc107";
+  
+  reviewHeader.appendChild(reviewer);
+  reviewHeader.appendChild(stars);
+  
+  let reviewContent = document.createElement("p");
+  reviewContent.innerText = review.text;
+  reviewContent.style.marginBottom = "10px";
+  
+  let reviewDate = document.createElement("div");
+  reviewDate.innerText = review.date;
+  reviewDate.style.fontSize = "0.8em";
+  reviewDate.style.color = "#666";
+  reviewDate.style.textAlign = "right";
+  
+  reviewCard.appendChild(reviewHeader);
+  reviewCard.appendChild(reviewContent);
+  reviewCard.appendChild(reviewDate);
+  
+  // Add fade-in animation
+  reviewCard.style.animation = "fadeIn 0.5s";
+  
+  return reviewCard;
 }
 
 // Function to open the review modal
@@ -651,7 +653,6 @@ document.querySelectorAll(".rating-stars i").forEach(star => {
 });
 
 // Submit review functionality with SweetAlert
-// Update the submit review functionality
 document.getElementById("submitReview").addEventListener("click", function() {
   // Get form values
   const reviewText = document.getElementById("reviewText").value;
@@ -702,7 +703,7 @@ document.getElementById("submitReview").addEventListener("click", function() {
   if (reviewModal) {
     reviewModal.hide();
   }
-
+  
   // Clear form
   document.getElementById("reviewText").value = "";
   document.querySelectorAll(".rating-stars i").forEach(star => {
@@ -716,37 +717,27 @@ document.getElementById("submitReview").addEventListener("click", function() {
     text: "Thank you for your feedback.",
     icon: "success",
     confirmButtonText: "OK"
+  }).then(() => {
+    // Update UI after the success message is closed
+    updateReviewsUI(storeName, newReview);
   });
-  
-  // Immediately update the UI
-  updateReviewsUI(storeName, newReview);
 });
 
 // Function to update UI with new review
 function updateReviewsUI(storeName, newReview) {
-  // Find the open details page
-  const detailsPage = document.querySelector("div[style*='position: fixed; top: 0']");
-  if (!detailsPage) return;
-
-  // Find the reviews section
-  const reviewsSection = detailsPage.querySelector("div[style*='marginTop: 40px']");
+  // Find the reviews section by ID
+  const reviewsSection = document.getElementById("reviewsSection");
   if (!reviewsSection) return;
 
   // Remove "no reviews" message if present
-  const noReviewsMsg = reviewsSection.querySelector("p");
-  if (noReviewsMsg && noReviewsMsg.textContent.includes("No reviews yet")) {
-    reviewsSection.removeChild(noReviewsMsg);
+  const noReviewsMsg = document.getElementById("noReviewsMessage");
+  if (noReviewsMsg) {
+    noReviewsMsg.remove();
   }
 
-  // Create new review card
-  const reviewCard = document.createElement("div");
-  reviewCard.style.border = "1px solid #eee";
-  reviewCard.style.borderRadius = "8px";
-  reviewCard.style.padding = "15px";
-  reviewCard.style.margin = "15px 0";
-  reviewCard.style.backgroundColor = "#f9f9f9";
-  reviewCard.style.animation = "fadeIn 0.5s";
-
+  // Create new review card using the helper function
+  const reviewCard = createReviewCard(newReview);
+  
   // Add animation style if not already present
   if (!document.querySelector("style[data-review-animation]")) {
     const style = document.createElement("style");
@@ -760,37 +751,7 @@ function updateReviewsUI(storeName, newReview) {
     document.head.appendChild(style);
   }
 
-  // Build review card content
-  const reviewHeader = document.createElement("div");
-  reviewHeader.style.display = "flex";
-  reviewHeader.style.justifyContent = "space-between";
-  reviewHeader.style.marginBottom = "10px";
-
-  const reviewer = document.createElement("strong");
-  reviewer.textContent = newReview.username;
-
-  const stars = document.createElement("div");
-  stars.innerHTML = "★".repeat(newReview.stars) + "☆".repeat(5 - newReview.stars);
-  stars.style.color = "#ffc107";
-
-  const reviewContent = document.createElement("p");
-  reviewContent.textContent = newReview.text;
-  reviewContent.style.marginBottom = "10px";
-
-  const reviewDate = document.createElement("div");
-  reviewDate.textContent = newReview.date;
-  reviewDate.style.fontSize = "0.8em";
-  reviewDate.style.color = "#666";
-  reviewDate.style.textAlign = "right";
-
-  // Assemble card
-  reviewHeader.appendChild(reviewer);
-  reviewHeader.appendChild(stars);
-  reviewCard.appendChild(reviewHeader);
-  reviewCard.appendChild(reviewContent);
-  reviewCard.appendChild(reviewDate);
-
-  // Insert at top of reviews section
+  // Insert at top of reviews section after the title
   const reviewsTitle = reviewsSection.querySelector("h2");
   if (reviewsTitle) {
     reviewsSection.insertBefore(reviewCard, reviewsTitle.nextSibling);
